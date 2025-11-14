@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h2>Email Attachment Demo</h2>
+
+  <form id="emailForm">
+    <input type="email" id="email" placeholder="Enter your email" required>
+    <button type="submit">Send Email</button>
+  </form>
+
+  <script>
+    document.getElementById("emailForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+
+      const pdfBase64 =
+        "JVBERi0xLjMKJf////8KNCAwIG9iago8PAovVHlwZSAvUGFnZQovUGFyZW50IDMgMCBSCi9NZWRpYUJveCBbMCAwIDU5NSAODU5XS"+"BdCi9Db250ZW50cyA1IDAgUgovUmVzb3VyY2VzIDIgMCBSCj4+CmVuZG9iago1IDAgb2JqCjw8L0xlbmd0aCA0Mz4+CnN0cmVhbQpCVAovRm91bmQgZGF0YSEKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNgowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAxMTAgMDAwMDAgbiAKMDAwMDAwMDE1NiAwMDAwMCBuIAowMDAwMDAwMjE1IDAwMDAwIG4gCjAwMDAwMDAyODQgMDAwMDAgbiAKMDAwMDAwMDM0MyAwMDAwMCBuIAp0cmFpbGVyCjw8L1NpemUgNi9Sb290IDEgMCBSCi9JbmZvIDYgMCBSCj4+CnN0YXJ0eHJlZgo0NjYKJSVFT0Y=";
+
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer re_EVeoepDf_3YMTDMzpw4Dp2TDj4N5xkeAG",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          from: "Demo <onboarding@resend.dev>",
+          to: email,
+          subject: "Your Demo Attachment",
+          html: "<p>Your demo file is attached.</p>",
+          attachments: [
+            {
+              filename: "demo.pdf",
+              content: pdfBase64,
+              encoding: "base64"
+            }
+          ]
+        })
+      });
+
+      alert("Email Sent!");
+    });
+  </script>
+</body>
+</html>
